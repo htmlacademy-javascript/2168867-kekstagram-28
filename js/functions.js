@@ -9,7 +9,7 @@ const isCheckLengthString = (string, maxLength) => {
 
 isCheckLengthString('проверяемая строка', 20);
 
-//проверка строки на палиндром. привети в один регистр.убрать пробелы
+//проверка строки на палиндром усложненный. привети в один регистр.убрать пробелы
 const isPalindrom = (string) => {
   const registerString = string
     .toLowerCase()
