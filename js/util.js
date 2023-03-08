@@ -1,16 +1,4 @@
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-export {getRandomInteger};
-export {getRandomArrayElement};
-
-function getRandomIntegerRange(min, max) {
+function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -18,22 +6,27 @@ function getRandomIntegerRange(min, max) {
   return Math.floor(result);
 }
 
-function createRandomLikesCount(min, max) {
+function createRandomIdFromRangeGenerator (min, max) {
   const previousValues = [];
 
   return function () {
-    let currentValue = getRandomIntegerRange(min, max);
+    let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
     }
     while (previousValues.includes(currentValue)) {
-      currentValue = getRandomIntegerRange(min, max);
+      currentValue = getRandomInteger(min, max);
     }
     previousValues.push(currentValue);
     return currentValue;
   };
 }
 
-const generateLikesCount = createRandomLikesCount(15, 200);
+const generateIdPhoto = createRandomIdFromRangeGenerator(1, 25);
+const generateIdComment = createRandomIdFromRangeGenerator(1, 2500);
+const getRandomArrayElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
 
-export {generateLikesCount};
+export { getRandomInteger };
+export { getRandomArrayElement };
+export { generateIdPhoto };
+export { generateIdComment };

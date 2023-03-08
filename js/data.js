@@ -14,12 +14,12 @@ message (строка ) - выбрать одно или два случайны
 name (строка) - Имена авторов также должны быть случайными
 */
 
-import { getRandomInteger, getRandomArrayElement, generateLikesCount } from './js/util.js';
+import { getRandomInteger, getRandomArrayElement, generateIdPhoto, generateIdComment } from '../js/util.js';
 
 
 const PHOTOS_COUNT = 25;
-const AVATAR_COUNT = 6;
-const SIMILAR_COMMENT_COUNT = 7;
+const AVATARS_COUNT = 6;
+const COMMENT_COUNT = 7;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -63,18 +63,21 @@ const DESCRIPTIONS = [
   'Портрет Поля Элюара',
   'Игроки в карты',
 ];
+const LIKES_MIN_COUNT = 15;
+const LIKES_MAX_COUNT = 200;
+
 
 const createDescriptionPhoto = () => ({
-  id: getRandomInteger(1, PHOTOS_COUNT),
-  url: `photos/-${getRandomInteger(1, PHOTOS_COUNT)}git.jpg`,
+  id: generateIdPhoto(1, PHOTOS_COUNT),
+  url: `photos/${getRandomInteger(1, PHOTOS_COUNT)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
-  likes: generateLikesCount(),
-  idComment: getRandomInteger(),
-  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
+  idComment: generateIdComment(),
+  avatar: `img/avatar-${getRandomInteger(1, AVATARS_COUNT)}.svg`,
   messages: getRandomArrayElement(MESSAGES),
   names: getRandomArrayElement(NAMES),
 });
 
-const createDescriptionsPhotos = () => Array.from({ length: SIMILAR_COMMENT_COUNT }, createDescriptionPhoto);
+const createDescriptionsPhotos = () => Array.from({ length: COMMENT_COUNT }, createDescriptionPhoto);
 
-export {createDescriptionsPhotos};
+export { createDescriptionsPhotos };
