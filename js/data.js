@@ -14,7 +14,7 @@ message (строка ) - выбрать одно или два случайны
 name (строка) - Имена авторов также должны быть случайными
 */
 
-import { getRandomInteger, getRandomArrayElement, generateIdPhoto, generateIdComment } from '../js/util.js';
+import { getRandomInteger, getRandomArrayElement, generateIdComment } from './util.js';
 
 
 const PHOTOS_COUNT = 25;
@@ -66,17 +66,26 @@ const DESCRIPTIONS = [
 const LIKES_MIN_COUNT = 15;
 const LIKES_MAX_COUNT = 200;
 
-
-const createDescriptionPhoto = () => ({
-  id: generateIdPhoto(1, PHOTOS_COUNT),
-  url: `photos/${getRandomInteger(1, PHOTOS_COUNT)}.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
-  idComment: generateIdComment(),
+const generateComment = () => ({
+  id: generateIdComment(),
   avatar: `img/avatar-${getRandomInteger(1, AVATARS_COUNT)}.svg`,
   messages: getRandomArrayElement(MESSAGES),
   names: getRandomArrayElement(NAMES),
 });
+
+const comments = () => Array.from({ length: COMMENT_COUNT }, generateComment);
+
+const createDescriptionPhoto = () => {
+  const id = getRandomInteger(1, PHOTOS_COUNT);
+
+  return {
+    id,
+    url: `photos/${id}.jpg`,
+    description: getRandomArrayElement(DESCRIPTIONS),
+    likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
+    comments: comments(),
+  };
+};
 
 const createDescriptionsPhotos = () => Array.from({ length: COMMENT_COUNT }, createDescriptionPhoto);
 
