@@ -1,5 +1,5 @@
 //проверить длину строки. сверить с максимальной длиной. вернуть true, если строка меньше или равна указанной длине, в противном случае false
-const isCheckLengthString = (string, maxLength) => {
+const isCheckLengthString = function (string, maxLength) {
   return string.length <= maxLength;
 };
 
