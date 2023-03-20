@@ -1,8 +1,10 @@
-import { createDescriptionsPhotos } from '../js/data.js';
-import { drawThumbnails } from '../js/thumbnail.js';
+import { createDescriptionsPhotos } from './data.js';
+import { drawThumbnails } from './thumbnail.js';
 
 drawThumbnails(createDescriptionsPhotos());
 
-console.log (
-  createDescriptionsPhotos()
-);
+
+/*import { createPhotoGallery } from './photos-gallery';
+
+
+createPhotoGallery();*/

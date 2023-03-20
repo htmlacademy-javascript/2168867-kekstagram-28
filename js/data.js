@@ -14,7 +14,7 @@ message (строка ) - выбрать одно или два случайны
 name (строка) - Имена авторов также должны быть случайными
 */
 
-import { getRandomInteger, getRandomArrayElement, generateIdComment } from './util.js';
+import { getRandomInteger, getRandomArrayElement, createUnicRandomNumber } from './util.js';
 
 
 const PHOTOS_COUNT = 25;
@@ -66,8 +66,13 @@ const DESCRIPTIONS = [
 const LIKES_MIN_COUNT = 15;
 const LIKES_MAX_COUNT = 200;
 
+// генерация уникальных массивов
+const сommentId = createUnicRandomNumber(1,COMMENT_COUNT);
+const photoId = createUnicRandomNumber(1, PHOTOS_COUNT);
+
+
 const generateComment = () => ({
-  id: generateIdComment(),
+  id: сommentId(),
   avatar: `img/avatar-${getRandomInteger(1, AVATARS_COUNT)}.svg`,
   messages: getRandomArrayElement(MESSAGES),
   names: getRandomArrayElement(NAMES),
@@ -76,7 +81,7 @@ const generateComment = () => ({
 const comments = () => Array.from({ length: COMMENT_COUNT }, generateComment);
 
 const createDescriptionPhoto = () => {
-  const id = getRandomInteger(1, PHOTOS_COUNT);
+  const id = photoId(1, PHOTOS_COUNT);
 
   return {
     id,
@@ -87,6 +92,6 @@ const createDescriptionPhoto = () => {
   };
 };
 
-const createDescriptionsPhotos = () => Array.from({ length: COMMENT_COUNT }, createDescriptionPhoto);
+const createDescriptionsPhotos = () => Array.from({ length:PHOTOS_COUNT }, createDescriptionPhoto);
 
 export { createDescriptionsPhotos };
