@@ -7,6 +7,24 @@ const commentListElement = fullSizeElement.querySelector('.social__comments');
 const commentTemplate = fullSizeElement.querySelector('.social__comment');
 const modalElementClose = fullSizeElement.querySelector('.cancel');
 
+const onDocumentEscapeKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
+  }
+};
+
+const getPhoto = (pictures) => {
+  const thumbnailElement = pictures.target.closest('[data-thumbnailElement-id]');
+  if (!thumbnailElement) {
+    return;
+  }
+  const picture = pictures.find(
+    (item) => item.id === Number(thumbnailElement.dataset.thumbnailElementId)
+  );
+  fullSizeElement(picture);
+};
+
 const renderComments = (comments) => {
   commentListElement.innerHTML = '';
   comments.forEach((comment) => {
@@ -15,34 +33,6 @@ const renderComments = (comments) => {
     newComment.querySelector('.social__text').textContent = comment.message;
     commentListElement.append(newComment);
   });
-};
-
-/* тут код связывает миниатюру и большое фото по id
-const renderBigPhoto = (pictures) => {
-  const thumbnailElement = pictures.target.closest('[data-thumbnail-id]');
-  if (!thumbnailElement) {
-    return;
-  }
-  const picture = pictures.find(
-    (item) => item.id === +thumbnailElement.dataset.thumbnailId
-  );
-  fullSizeElement(picture);
-};
-*/
-
-const getPhoto = ({ url, description, likes, comments }) => {
-  fullSizeElement.querySelector('.big-picture__img').src = url;
-  fullSizeElement.querySelector('.social__caption').textContent = description;
-  fullSizeElement.querySelector('.likes-count').textContent = likes;
-  fullSizeElement.querySelector('.comments-count').textContent = comments.length;
-  fullSizeElement.querySelector('.social__comment-count').textContent = comments;
-};
-
-const onDocumentEscapeKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeUserModal();
-  }
 };
 
 function closeUserModal() {
@@ -62,5 +52,6 @@ const openFullSizePicture = (data) => {
   getPhoto(data);
   renderComments(data.comments);
 };
+
 
 export { openFullSizePicture };
