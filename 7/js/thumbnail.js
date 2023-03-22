@@ -1,27 +1,31 @@
+import { openFullSizePicture } from './full-size-photo.js';
+
 const thumbnailTemplate = document
   .querySelector('#picture')
   .content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const createThumbnail = ({ url, likes, comments }) => {
-  const thumbnail = thumbnailTemplate.cloneNode(true);
-  thumbnail.querySelector('.picture__img').src = url;
-  thumbnail.querySelector('.picture__likes').textContent = likes;
-  thumbnail.querySelector('.picture__comments').textContent = comments.length;
+const createThumbnailElement = (photo) => {
+  const thumbnailElement = thumbnailTemplate.cloneNode(true);
+  thumbnailElement.querySelector('.picture__img').src = photo.url;
+  thumbnailElement.querySelector('.picture__likes').textContent = photo.likes;
+  thumbnailElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
-  return thumbnail;
+  thumbnailElement.addEventListener('click', () => openFullSizePicture(photo));
+
+  return thumbnailElement;
 };
 
 const drawThumbnails = (pictures) => {
   const element = document.createDocumentFragment();
 
   pictures.forEach((picture) => {
-    const thumbnail = createThumbnail(picture);
-    element.append(thumbnail);
+    const thumbnailElement = createThumbnailElement(picture);
+    element.append(thumbnailElement);
   });
 
   container.append(element);
 };
 
 
-export { drawThumbnails, createThumbnail };
+export { drawThumbnails };
