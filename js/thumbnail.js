@@ -5,12 +5,13 @@ const thumbnailTemplate = document
   .content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const createThumbnailElement = ({ url, likes, comments }) => {
+const createThumbnailElement = (photo) => {
   const thumbnailElement = thumbnailTemplate.cloneNode(true);
-  thumbnailElement.querySelector('.picture__img').src = url;
-  thumbnailElement.querySelector('.picture__likes').textContent = likes;
-  thumbnailElement.querySelector('.picture__comments').textContent = comments.length;
-  thumbnailElement.addEventListener('click', () => openFullSizePicture());
+  thumbnailElement.querySelector('.picture__img').src = photo.url;
+  thumbnailElement.querySelector('.picture__likes').textContent = photo.likes;
+  thumbnailElement.querySelector('.picture__comments').textContent = photo.comments.length;
+
+  thumbnailElement.addEventListener('click', () => openFullSizePicture(photo));
 
   return thumbnailElement;
 };
