@@ -5,7 +5,8 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-const createRandomIdFromRangeGenerator = (min, max) => {
+// проверка на уникальность
+const createUnicRandomNumber = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -21,7 +22,7 @@ const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-const generateIdComment = createRandomIdFromRangeGenerator(1, 2500);
 const getRandomArrayElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger, getRandomArrayElement, generateIdComment };
+export { getRandomInteger, getRandomArrayElement, createUnicRandomNumber, isEscapeKey};

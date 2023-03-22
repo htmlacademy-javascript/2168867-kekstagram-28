@@ -1,8 +1,4 @@
-import { createDescriptionsPhotos } from '../js/data.js';
-import { drawThumbnails } from '../js/thumbnail.js';
+import { createDataPhotos } from './data.js';
+import { drawThumbnails } from './thumbnail.js';
 
-drawThumbnails(createDescriptionsPhotos());
-
-console.log (
-  createDescriptionsPhotos()
-);
+drawThumbnails(createDataPhotos());
