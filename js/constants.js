@@ -1,3 +1,5 @@
+//завела отдельный модуль со всеми константами
+
 const PHOTOS_COUNT = 25;
 const AVATARS_COUNT = 6;
 const COMMENT_COUNT = 7;

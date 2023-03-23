@@ -38,7 +38,7 @@ const renderComments = (comments) => {
   });
 };
 
-// генерирую по 5 комментов через кнопку загрузить еще
+// генерирую по 5 комментов через кнопку загрузить еще. но у меня это не работает
 const createButtonCommentLoads = (comments) => {
   commentsShown += COMMENT_IN_BLOCK;
 
