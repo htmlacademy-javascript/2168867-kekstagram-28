@@ -1,10 +1,14 @@
 import { isEscapeKey } from './util.js';
-
+import { COMMENT_IN_BLOCK } from './constants.js';
 
 const fullSizeElement = document.querySelector('.big-picture');
 const modalCloseElement = fullSizeElement.querySelector('.cancel');
 const commentListElement = fullSizeElement.querySelector('.social__comments');
+const commentCount = fullSizeElement.querySelector('.social__comment-count');
 const commentTemplate = fullSizeElement.querySelector('.social__comment');
+const commentsLoader = document.querySelector('.social__comments-loader');
+
+let commentsShown = 0;
 
 const onDocumentEscapeKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -21,7 +25,7 @@ const renderPhoto = (photo) => {
   return fullSizeElement;
 };
 
-
+// генерирую весь массис комментариев с аватарками именем комментатора и текстом
 const renderComments = (comments) => {
   commentListElement.innerHTML = '';
   comments.forEach((comment) => {
@@ -34,6 +38,27 @@ const renderComments = (comments) => {
   });
 };
 
+// генерирую по 5 комментов через кнопку загрузить еще
+const createButtonCommentLoads = (comments) => {
+  commentsShown += COMMENT_IN_BLOCK;
+
+  if (commentsShown >= comments.length) {
+    commentsLoader.classList.add('hidden');
+    commentsShown = comments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
+
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < commentsShown; i++) {
+    const commentElement = renderComments(comments[i]);
+    fragment.append(commentElement);
+  }
+
+  commentsShown.innerHTML = '';
+  commentsShown.append(fragment);
+  commentCount.innerHTML = `${commentsShown} из (COMMENT_COUNT)`;
+};
 
 function closeUserModal() {
   fullSizeElement.classList.add('hidden');
@@ -48,7 +73,7 @@ const openFullSizePicture = (photo) => {
   document.body.classList.add('modal-open');
   renderPhoto(photo);
   renderComments(photo.comments);
+  createButtonCommentLoads(); //вызывааю функцию генерации по 5 комментов
 };
-
 
 export { openFullSizePicture };
