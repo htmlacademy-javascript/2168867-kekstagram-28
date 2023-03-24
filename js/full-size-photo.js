@@ -1,10 +1,15 @@
 import { isEscapeKey } from './util.js';
-
+import { COMMENT_IN_BLOCK } from './constants.js';
 
 const fullSizeElement = document.querySelector('.big-picture');
 const modalCloseElement = fullSizeElement.querySelector('.cancel');
 const commentListElement = fullSizeElement.querySelector('.social__comments');
+const commentCountElement = fullSizeElement.querySelector('.social__comment-count');
 const commentTemplate = fullSizeElement.querySelector('.social__comment');
+const commentsLoaderElement = document.querySelector('.social__comments-loader');
+
+let commentsShown = 0;
+let currentsComments = [];
 
 const onDocumentEscapeKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -21,10 +26,18 @@ const renderPhoto = (photo) => {
   return fullSizeElement;
 };
 
+const renderComments = () => {
+  const limit = commentsShown + COMMENT_IN_BLOCK;
 
-const renderComments = (comments) => {
-  commentListElement.innerHTML = '';
-  comments.forEach((comment) => {
+  if (currentsComments.length <= limit) {
+    commentsLoaderElement.classList.add('hidden');
+  } else {
+    commentsLoaderElement.classList.remove('hidden');
+  }
+
+  commentCountElement.innerHTML = `${Math.min(currentsComments.length, limit)} из ${currentsComments.length} комментариев`;
+
+  currentsComments.slice(commentsShown, limit).forEach((comment) => {
     const newCommentElement = commentTemplate.cloneNode(true);
     newCommentElement.querySelector('.social__picture').src = comment.avatar;
     newCommentElement.querySelector('.social__picture').alt = comment.names;
@@ -43,12 +56,19 @@ function closeUserModal() {
 modalCloseElement.addEventListener('click', () => closeUserModal());
 document.addEventListener('keydown', onDocumentEscapeKeydown);
 
+commentsLoaderElement.addEventListener('click', () => {
+  commentsShown += COMMENT_IN_BLOCK;
+  renderComments();
+});
+
 const openFullSizePicture = (photo) => {
   fullSizeElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   renderPhoto(photo);
-  renderComments(photo.comments);
+  commentListElement.innerHTML = '';
+  commentsShown = 0;
+  currentsComments = photo.comments;
+  renderComments();
 };
-
 
 export { openFullSizePicture };

@@ -15,59 +15,10 @@ name (строка) - Имена авторов также должны быть
 */
 
 import { getRandomInteger, getRandomArrayElement, createUnicRandomNumber } from './util.js';
-
-
-const PHOTOS_COUNT = 25;
-const AVATARS_COUNT = 6;
-const COMMENT_COUNT = 7;
-const MESSAGES = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
-];
-const NAMES = [
-  'Гендальф Упругий',
-  'Золотой Глаз',
-  'Гнев программиста',
-  'Молодость бабушки',
-  'Старая калоша',
-  'Любимый Кексик',
-];
-const DESCRIPTIONS = [
-  'Утро в сосновом лесу',
-  'Приплыли',
-  'Мона Лиза',
-  'Черный квадрат',
-  'Бурлаки на Волге',
-  'Письмо запорожцев турецкому султану',
-  'Девятый вал',
-  'Девушка с персиками',
-  'Звездная ночь',
-  'Ночной дозор',
-  'Грачи прилетели',
-  'Апофеоз войны',
-  'Сотворение Адама',
-  'Девочка на шаре',
-  'Боярыня Морозова',
-  'Утро стрелецкой казни',
-  'Рождение Венеры',
-  'Сад земных наслаждений',
-  'Поцелуй ',
-  'Крик ',
-  'Постоянство Памяти',
-  'Пылающий жираф',
-  'Дом для эротомана',
-  'Портрет Поля Элюара',
-  'Игроки в карты',
-];
-const LIKES_MIN_COUNT = 15;
-const LIKES_MAX_COUNT = 200;
+import { PHOTOS_COUNT, AVATARS_COUNT, COMMENT_COUNT, MESSAGES, NAMES, DESCRIPTIONS, LIKES_MIN_COUNT, LIKES_MAX_COUNT } from './constants.js';
 
 // генерация уникальных массивов
-const getCommentId = createUnicRandomNumber(1,COMMENT_COUNT);
+const getCommentId = createUnicRandomNumber(1, COMMENT_COUNT);
 const photoId = createUnicRandomNumber(1, PHOTOS_COUNT);
 
 
@@ -78,8 +29,6 @@ const generateComment = () => ({
   names: getRandomArrayElement(NAMES),
 });
 
-const comments = () => Array.from({ length: COMMENT_COUNT }, generateComment);
-
 const createDataPhoto = () => {
   const id = photoId(1, PHOTOS_COUNT);
 
@@ -88,7 +37,7 @@ const createDataPhoto = () => {
     url: `photos/${id}.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
-    comments: comments(),
+    comments: Array.from({ length: getRandomInteger(1, COMMENT_COUNT) }, generateComment),
   };
 };
 
