@@ -18,7 +18,7 @@ import { getRandomInteger, getRandomArrayElement, createUnicRandomNumber } from 
 import { PHOTOS_COUNT, AVATARS_COUNT, COMMENT_COUNT, MESSAGES, NAMES, DESCRIPTIONS, LIKES_MIN_COUNT, LIKES_MAX_COUNT } from './constants.js';
 
 // генерация уникальных массивов
-const getCommentId = createUnicRandomNumber(1,COMMENT_COUNT);
+const getCommentId = createUnicRandomNumber(1, COMMENT_COUNT);
 const photoId = createUnicRandomNumber(1, PHOTOS_COUNT);
 
 
@@ -29,8 +29,6 @@ const generateComment = () => ({
   names: getRandomArrayElement(NAMES),
 });
 
-const comments = () => Array.from({ length: COMMENT_COUNT }, generateComment);
-
 const createDataPhoto = () => {
   const id = photoId(1, PHOTOS_COUNT);
 
@@ -39,7 +37,7 @@ const createDataPhoto = () => {
     url: `photos/${id}.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
-    comments: comments(),
+    comments: Array.from({ length: getRandomInteger(1, COMMENT_COUNT) }, generateComment),
   };
 };
 

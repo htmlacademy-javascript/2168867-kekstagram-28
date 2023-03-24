@@ -2,7 +2,7 @@
 
 const PHOTOS_COUNT = 25;
 const AVATARS_COUNT = 6;
-const COMMENT_COUNT = 7;
+const COMMENT_COUNT = 17;
 const COMMENT_IN_BLOCK = 5;
 const MESSAGES = [
   'Всё отлично!',
