@@ -1,6 +1,8 @@
 import { isEscapeKey } from './util.js';
 import { container } from './thumbnail.js';
 import { openFullSizePicture } from './full-size-photo.js';
+import { rebootScale } from './scale-photo.js';
+import { rebootEffects } from './photo-effects.js';
 
 const downloadPhoto = container.querySelector('#upload-file');
 const openModal = container.querySelector('.img-upload__overlay');
@@ -32,6 +34,8 @@ const closeUserModal = () => {
   openModal.classList.add('hidden');
   container.classList.remove('modal-open');
   downloadPhoto.value = '';
+  rebootScale();
+  rebootEffects();
 
   document.removeEventListener('keydown', onModalKeydown);
 };
