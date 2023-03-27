@@ -1,51 +1,46 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, isFieldFocused } from './util.js';
 import { container } from './thumbnail.js';
-import { openFullSizePicture } from './full-size-photo.js';
-import { rebootScale } from './scale-photo.js';
-import { rebootEffects } from './photo-effects.js';
 
-const downloadPhoto = container.querySelector('#upload-file');
-const openModal = container.querySelector('.img-upload__overlay');
-const closeModal = container.querySelector('.img-upload__cancel');
-const userModalHashtags = openModal.querySelector('.text__hashtags');
-const userModalComment = openModal.querySelector('.text__description');
+const photoDownloadElement = container.querySelector('#upload-file');
+const openModalElement = container.querySelector('.img-upload__overlay');
+const closeModalElement = container.querySelector('.img-upload__cancel');
+const userModalHashtagsElement = openModalElement.querySelector('.text__hashtags');
+const userModalCommentElement = openModalElement.querySelector('.text__description');
 
 const onModalKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !isFieldFocused(evt)) {
     evt.preventDefault();
-    downloadPhoto.value = '';
-    openModal.classList.add('hidden');
-    openFullSizePicture.classList.remove('modal-open');
+    photoDownloadElement.value = '';
+    openModalElement.classList.add('hidden');
+    closeUserModal();
   }
 };
 
 //открываем модалку
 const openUserModal = () => {
-  openModal.classList.remove('hidden');
+  openModalElement.classList.remove('hidden');
   container.classList.add('modal-open');
 
-  openModal.addEventListener('focusin', () => document.removeEventListener('keydown', onModalKeydown));
-  openModal.addEventListener('focusout', () => document.addEventListener('keydown', onModalKeydown));
+  openModalElement.addEventListener('focusout', () => document.addEventListener('keydown', onModalKeydown));
 
   document.addEventListener('keydown', onModalKeydown);
 };
+
 //закрываем модалку
-const closeUserModal = () => {
-  openModal.classList.add('hidden');
+function closeUserModal () {
+  openModalElement.classList.add('hidden');
   container.classList.remove('modal-open');
-  downloadPhoto.value = '';
-  rebootScale();
-  rebootEffects();
+  photoDownloadElement.value = '';
 
   document.removeEventListener('keydown', onModalKeydown);
-};
+}
 
 //навешиваем обработчики
-downloadPhoto.addEventListener('input', () => {
+photoDownloadElement.addEventListener('input', () => {
   openUserModal();
 });
-closeModal.addEventListener('click', () => {
+closeModalElement.addEventListener('click', () => {
   closeUserModal();
 });
 
-export { userModalHashtags, userModalComment };
+export { userModalHashtagsElement, userModalCommentElement };

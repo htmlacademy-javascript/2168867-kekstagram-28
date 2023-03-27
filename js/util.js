@@ -24,5 +24,6 @@ const createUnicRandomNumber = (min, max) => {
 
 const getRandomArrayElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
 const isEscapeKey = (evt) => evt.key === 'Escape';
+const isFieldFocused = () => ['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase());
 
-export { getRandomInteger, getRandomArrayElement, createUnicRandomNumber, isEscapeKey};
+export { getRandomInteger, getRandomArrayElement, createUnicRandomNumber, isEscapeKey, isFieldFocused };
