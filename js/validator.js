@@ -1,6 +1,6 @@
 import { userModalHashtags, userModalComment } from './open-form.js';
 import { isValidHashtag } from './regexp.js';
-import { MAX_HASHTAG_SIMBOL_LENGTH, MAX_HASHTAG_COUNT,MAX_COMMENT_LENGTH } from './constants.js';
+import { MAX_HASHTAG_SIMBOL_LENGTH, MAX_HASHTAG_COUNT, MAX_COMMENT_LENGTH } from './constants.js';
 
 const userModalForm = document.querySelector('.img-upload__form');
 
@@ -50,15 +50,8 @@ pristine.addValidator(
 
 // хештеги не должны повторяться
 const validateUnicHashtags = () => {
-  const values = [];
-  for (let i = 0; i < hashtags.value.trim().split(' ').length; i++) {
-    const value = hashtags.value.trim().split(' ')[i];
-    if (values.indexOf(value) !== -1) {
-      return false;
-    }
-    values.push(value);
-  }
-  return true;
+  const lowercaseHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
+  return hashtags.length === new Set(lowercaseHashtags).size;
 };
 
 pristine.addValidator(
