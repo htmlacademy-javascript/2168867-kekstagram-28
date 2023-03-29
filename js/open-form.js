@@ -1,17 +1,22 @@
 import { isEscapeKey, isFieldFocused } from './util.js';
 import { container } from './thumbnail.js';
+import { getValidator } from './validator.js';
 
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
 const closeModalElement = container.querySelector('.img-upload__cancel');
-const userModalHashtagsElement = openModalElement.querySelector('.text__hashtags');
-const userModalCommentElement = openModalElement.querySelector('.text__description');
+const formElement = container.querySelector('.img-upload__form');
+const pristine = getValidator(formElement);
+
+formElement.addEventListener('submit', (evt) => {
+  if (!pristine.validate()) {
+    evt.preventDefault();
+  }
+});
 
 const onModalKeydown = (evt) => {
   if (isEscapeKey(evt) && !isFieldFocused(evt)) {
     evt.preventDefault();
-    photoDownloadElement.value = '';
-    openModalElement.classList.add('hidden');
     closeUserModal();
   }
 };
@@ -20,14 +25,11 @@ const onModalKeydown = (evt) => {
 const openUserModal = () => {
   openModalElement.classList.remove('hidden');
   container.classList.add('modal-open');
-
-  openModalElement.addEventListener('focusout', () => document.addEventListener('keydown', onModalKeydown));
-
   document.addEventListener('keydown', onModalKeydown);
 };
 
 //закрываем модалку
-function closeUserModal () {
+function closeUserModal() {
   openModalElement.classList.add('hidden');
   container.classList.remove('modal-open');
   photoDownloadElement.value = '';
@@ -43,4 +45,4 @@ closeModalElement.addEventListener('click', () => {
   closeUserModal();
 });
 
-export { userModalHashtagsElement, userModalCommentElement };
+export { formElement };

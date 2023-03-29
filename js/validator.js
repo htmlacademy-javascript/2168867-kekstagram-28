@@ -1,60 +1,59 @@
-import { userModalHashtagsElement, userModalCommentElement } from './open-form.js';
-import { MAX_HASHTAG_SYMBOL_LENGTH, MAX_HASHTAG_COUNT, MAX_COMMENT_LENGTH } from './constants.js';
+import { MAX_HASHTAG_SYMBOL_LENGTH, MAX_HASHTAG_COUNT } from './constants.js';
 
-const userModalForm = document.querySelector('.img-upload__form');
-
-const texthashtag = userModalHashtagsElement;
-const userComment = userModalCommentElement;
-
-const pristine = new Pristine(userModalForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field-wrapper--invalid',
-  successClass: 'img-upload__field-wrapper--valid',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'span',
-  errorTextClass: 'img-upload__error'
-}, false);
-
+const getHashtag = (value) => value.trim().toLowerCase().split(' ');
 //здесь пишем условия валидации
-const getvalidHashtag = (value) => value.trim().toLowercase().split(' ');
+const getValidator = (formElement) => {
+  const pristine = new Pristine(
+    formElement,
+    {
+      classTo: 'img-upload__field-wrapper',
+      errorClass: 'img-upload__error',
+      errorTextParent: 'img-upload__field-wrapper',
+    },
+    false
+  );
 
-pristine.addValidator(
-  texthashtag,
-  (value) => getvalidHashtag(value).every((hashtag) => /^#/.test(hashtag)),
-  'Хэштэг должен начинаться с решетки}'
-);
-pristine.addValidator(
-  texthashtag,
-  (value) => getvalidHashtag(value).every((hashtag) => /[a-zа-яё0-9]{1,19}$/.test(hashtag)),
-  'Хэштэг должен состоять только из букв и цифр'
-);
-pristine.addValidator(
-  texthashtag,
-  (value) => getvalidHashtag(value) > MAX_HASHTAG_SYMBOL_LENGTH,
-  'Максимальная длина хэштэга 20 символов'
-);
-pristine.addValidator(
-  texthashtag,
-  (value) =>
-    getvalidHashtag(value).length <= MAX_HASHTAG_COUNT,
-  'Превышено общее число хэштэгов'
-);
-pristine.addValidator(
-  texthashtag,
-  (value) => {
-    const hashtags = getvalidHashtag(value);
-    return hashtags.length === new Set(hashtags).size;
-  },
-  'Присутствует повторяющйся хэштэг'
-);
+  formElement.querySelectorAll('input, textarea').forEach((fieldElement) => {
+    const onInput = () => pristine.validate(fieldElement);
+    const onChange = (evt) => {
+      evt.currentTarget.addEventListener('input', onInput);
+      evt.currentTarget.removeEventListener('change', onChange);
+      pristine.validate(fieldElement);
+    };
+    fieldElement.addEventListener('change', onChange);
 
+    if (fieldElement.className.includes('hashtags')) {
+      pristine.addValidator(
+        fieldElement,
+        (value) => !value || getHashtag(value).every((hashtag) => /^#/.test(hashtag)),
+        'Хэштэг должен начинаться с решетки}'
+      );
+      pristine.addValidator(
+        fieldElement,
+        (value) => !value || getHashtag(value).every((hashtag) => /[a-zа-яё0-9]{1,19}$/.test(hashtag)),
+        'Хэштэг не может содержать спецсимволы и должен содержать минимум одну букву и цифру'
+      );
+      pristine.addValidator(
+        fieldElement,
+        (value) => !value || getHashtag(value).every((hashtag) => hashtag.length <= MAX_HASHTAG_SYMBOL_LENGTH),
+        'Максимальная длина хэштэга 20 символов'
+      );
+      pristine.addValidator(
+        fieldElement,
+        (value) =>
+          getHashtag(value).length <= MAX_HASHTAG_COUNT,
+        'Превышено общее число хэштэгов'
+      );
+      pristine.addValidator(
+        fieldElement,
+        (value) => {
+          const hashtags = getHashtag(value);
+          return hashtags.length === new Set(hashtags).size;
+        },
+        'Присутствует повторяющйся хэштэг'
+      );
+    }
+  });
+};
 
-const validateCommentsLength = () => userComment.length > MAX_COMMENT_LENGTH;
-
-pristine.addValidator(
-  userModalHashtagsElement,
-  validateCommentsLength,
-  'Максимальная длина комментария 140 символов'
-);
-
-export { getvalidHashtag };
+export { getValidator };
