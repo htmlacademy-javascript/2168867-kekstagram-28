@@ -1,6 +1,8 @@
 import { isEscapeKey, isFieldFocused } from './util.js';
 import { container } from './thumbnail.js';
 import { getValidator } from './validator.js';
+import { rebootScale } from './scale-photo.js';
+import { rebootEffects } from './photo-effects.js';
 
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
@@ -33,6 +35,9 @@ function closeUserModal() {
   openModalElement.classList.add('hidden');
   container.classList.remove('modal-open');
   photoDownloadElement.value = '';
+  rebootScale();
+  rebootEffects();
+
 
   document.removeEventListener('keydown', onModalKeydown);
 }
