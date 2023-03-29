@@ -25,7 +25,6 @@ const onModalKeydown = (evt) => {
 const openUserModal = () => {
   openModalElement.classList.remove('hidden');
   container.classList.add('modal-open');
-
   document.addEventListener('keydown', onModalKeydown);
 };
 
