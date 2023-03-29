@@ -38,7 +38,6 @@ function closeUserModal() {
   rebootScale();
   rebootEffects();
 
-
   document.removeEventListener('keydown', onModalKeydown);
 }
 
