@@ -1,14 +1,17 @@
-import { isEscapeKey, isFieldFocused } from './util.js';
+import { isEscapeKey, isFieldFocused, showAlert } from './util.js';
 import { container } from './thumbnail.js';
 import { getValidator } from './validator.js';
 import { rebootScale } from './scale-photo.js';
 import { rebootEffects } from './photo-effects.js';
+import { sendData } from './api.js';
 
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
 const closeModalElement = container.querySelector('.img-upload__cancel');
 const formElement = container.querySelector('.img-upload__form');
 const pristine = getValidator(formElement);
+const submitPostElement = container.querySelector('#upload-submit');
+const formAddImageElement = container.querySelector('#upload-select-image');
 
 formElement.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
@@ -37,7 +40,6 @@ function closeUserModal() {
   photoDownloadElement.value = '';
   rebootScale();
   rebootEffects();
-
   document.removeEventListener('keydown', onModalKeydown);
 }
 
@@ -49,4 +51,35 @@ closeModalElement.addEventListener('click', () => {
   closeUserModal();
 });
 
-export { formElement };
+const submitPostText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую'
+};
+
+const blockSubmitButton = () => {
+  submitPostElement.disabled = true;
+  submitPostElement.textContent = submitPostText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitPostElement.disabled = false;
+  submitPostElement.textContent = submitPostText.IDLE;
+};
+
+const onFormSubmit = () => {
+  formAddImageElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then()
+        .catch((err) => {
+          showAlert(err.message);
+        })
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+
+export { formElement, closeUserModal, onFormSubmit };

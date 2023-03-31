@@ -47,7 +47,6 @@ const renderComments = () => {
   });
 };
 
-
 function closeUserModal() {
   fullSizeElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
