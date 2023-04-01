@@ -8,6 +8,7 @@ const getValidator = (formElement) => {
     {
       classTo: 'img-upload__field-wrapper',
       errorClass: 'img-upload__error',
+      successClass: 'img-upload__text--valid',
       errorTextParent: 'img-upload__field-wrapper',
     },
     false
@@ -26,7 +27,7 @@ const getValidator = (formElement) => {
       pristine.addValidator(
         fieldElement,
         (value) => !value || getHashtag(value).every((hashtag) => /^#/.test(hashtag)),
-        'Хэштэг должен начинаться с решетки}'
+        'Хэштэг должен начинаться с решетки'
       );
       pristine.addValidator(
         fieldElement,
@@ -54,6 +55,7 @@ const getValidator = (formElement) => {
       );
     }
   });
+  return pristine;
 };
 
 export { getValidator };

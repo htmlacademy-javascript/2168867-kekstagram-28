@@ -11,13 +11,12 @@ const closeModalElement = container.querySelector('.img-upload__cancel');
 const formElement = container.querySelector('.img-upload__form');
 const pristine = getValidator(formElement);
 const submitPostElement = container.querySelector('#upload-submit');
-const formAddImageElement = container.querySelector('#upload-select-image');
 
-formElement.addEventListener('submit', (evt) => {
+/*formElement.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
-});
+});*/
 
 const onModalKeydown = (evt) => {
   if (isEscapeKey(evt) && !isFieldFocused(evt)) {
@@ -66,10 +65,11 @@ const unblockSubmitButton = () => {
   submitPostElement.textContent = submitPostText.IDLE;
 };
 
-const onFormSubmit = (callback) => {
-  formAddImageElement.addEventListener('submit', (evt) => {
+const setUploadSubmit = (callback) => {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
+
     if (isValid) {
       blockSubmitButton();
       callback(new FormData(evt.target))
@@ -86,4 +86,4 @@ const onFormSubmit = (callback) => {
   });
 };
 
-export { formElement, closeUserModal, onFormSubmit };
+export { formElement, closeUserModal, setUploadSubmit };

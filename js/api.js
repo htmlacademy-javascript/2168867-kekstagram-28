@@ -1,35 +1,32 @@
 import { BASE_URL } from './constants.js';
-import { showAlert } from './util.js';
 
 const Route = {
-  GET_DATA: '/data',
-  SEND_DATA: '/1',
+  GET: '/data',
+  POST: '',
 };
 const Method = {
   GET: 'GET',
   POST: 'POST',
 };
 const ErrorText = {
-  GET_DATA: 'Не удалось загрузить данные. Попробуйте перезагрузить страницу',
-  SEND_DATA: 'Не удалось отправить форму. Попробуйте еще раз',
+  GET: 'Не удалось загрузить данные. Попробуйте перезагрузить страницу',
+  POST: 'Не удалось отправить форму. Попробуйте еще раз',
 };
 
-const load = (route, errorText, method = Method.GET, body = null) =>
-  fetch(`${BASE_URL}${route}`, {method, body})
+const load = (mode, body = null) =>
+  fetch(`${BASE_URL}${Route[mode]}`, { method: Method[mode], body })
     .then((response) => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error();
       }
       return response.json();
     })
     .catch(() => {
-      throw new Error(ErrorText);
+      throw new Error(ErrorText[mode]);
     });
 
-const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA).catch(showAlert);
+const getData = () => load(Method.GET);
 
-const sendData = (body) =>
-  load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+const sendData = (body) => load(Method.POST, body);
 
 export { getData, sendData };
-
