@@ -24,11 +24,7 @@ const createUnicRandomNumber = (min, max) => {
   };
 };
 
-const getRandomArrayElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
-const isEscapeKey = (evt) => evt.key === 'Escape';
-const isFieldFocused = () => ['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase());
-
-const showAlert = (message) => {
+const showAlert = ({message}) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -48,5 +44,10 @@ const showAlert = (message) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
+
+
+const getRandomArrayElement = (elements) => elements[Math.floor(Math.random() * elements.length)];
+const isEscapeKey = (evt) => evt.key === 'Escape';
+const isFieldFocused = () => ['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase());
 
 export { getRandomInteger, getRandomArrayElement, createUnicRandomNumber, isEscapeKey, isFieldFocused, showAlert };

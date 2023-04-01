@@ -3,7 +3,7 @@ import { container } from './thumbnail.js';
 import { getValidator } from './validator.js';
 import { rebootScale } from './scale-photo.js';
 import { rebootEffects } from './photo-effects.js';
-import { sendData } from './api.js';
+import { showErrorMessage, showSuccessMessage } from './servises-messages.js';
 
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
@@ -66,16 +66,20 @@ const unblockSubmitButton = () => {
   submitPostElement.textContent = submitPostText.IDLE;
 };
 
-const onFormSubmit = () => {
+const onFormSubmit = (callback) => {
   formAddImageElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
       blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then()
+      callback(new FormData(evt.target))
+        .then(() => {
+          closeUserModal();
+          showSuccessMessage();
+        })
         .catch((err) => {
-          showAlert(err.message);
+          showErrorMessage();
+          showAlert(err);
         })
         .finally(unblockSubmitButton);
     }
