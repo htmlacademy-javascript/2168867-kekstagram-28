@@ -89,4 +89,4 @@ const setUploadSubmit = (callback) => {
   });
 };
 
-export { formElement, closeUserModal, setUploadSubmit };
+export { formElement, closeUserModal, setUploadSubmit, onModalKeydown };
