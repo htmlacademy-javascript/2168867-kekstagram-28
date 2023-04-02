@@ -3,7 +3,8 @@ import { container } from './thumbnail.js';
 import { getValidator } from './validator.js';
 import { rebootScale } from './scale-photo.js';
 import { rebootEffects } from './photo-effects.js';
-import { showErrorMessage, showSuccessMessage } from './servises-messages.js';
+/*import { showErrorMessage, showSuccessMessage } from './servises-messages.js';*/
+import { uploadError, uploadSuccess } from './upload.js';
 
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
@@ -75,11 +76,13 @@ const setUploadSubmit = (callback) => {
       callback(new FormData(evt.target))
         .then(() => {
           closeUserModal();
-          showSuccessMessage();
+          /*showSuccessMessage();*/
+          uploadSuccess();
         })
         .catch((err) => {
-          showErrorMessage();
+          /*showErrorMessage();*/
           showAlert(err);
+          uploadError();
         })
         .finally(unblockSubmitButton);
     }
