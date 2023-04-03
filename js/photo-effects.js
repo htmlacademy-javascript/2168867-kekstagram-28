@@ -1,10 +1,10 @@
 import { EFFECTS } from './constants.js';
-import { photoPreview } from './scale-photo.js';
+import { photoPreviewElement } from './scale-photo.js';
 
 const effectsElement = document.querySelector('.effects');
 const sliderElement = document.querySelector('.effect-level__slider');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-const effectValue = document.querySelector('.effect-level__value');
+const sliderContainerElement = document.querySelector('.img-upload__effect-level');
+const effectValueElement = document.querySelector('.effect-level__value');
 
 const EFFECT_DEFAULT = EFFECTS[0];
 let currentEffect = EFFECT_DEFAULT;
@@ -12,11 +12,11 @@ let currentEffect = EFFECT_DEFAULT;
 const isDefault = () => currentEffect === EFFECT_DEFAULT;
 
 const closeSlider = () => {
-  sliderContainer.classList.add('hidden');
+  sliderContainerElement.classList.add('hidden');
 };
 
 const showSlider = () => {
-  sliderContainer.classList.remove('hidden');
+  sliderContainerElement.classList.remove('hidden');
 };
 
 const changeSlider = () => {
@@ -45,10 +45,10 @@ const onEffectsChange = (evt) => {
 
 const onSliderChange = () => {
   const sliderValue = sliderElement.noUiSlider.get();
-  photoPreview.style.filter = isDefault()
+  photoPreviewElement.style.filter = isDefault()
     ? EFFECT_DEFAULT.style
     : `${currentEffect.style}(${sliderValue}${currentEffect.unit})`;
-  effectValue.value = sliderValue;
+  effectValueElement.value = sliderValue;
 };
 
 const rebootEffects = () => {

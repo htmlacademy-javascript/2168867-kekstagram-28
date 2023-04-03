@@ -40,13 +40,12 @@ const renderComments = () => {
   currentsComments.slice(commentsShown, limit).forEach((comment) => {
     const newCommentElement = commentTemplate.cloneNode(true);
     newCommentElement.querySelector('.social__picture').src = comment.avatar;
-    newCommentElement.querySelector('.social__picture').alt = comment.names;
-    newCommentElement.querySelector('.social__text').textContent = comment.messages;
+    newCommentElement.querySelector('.social__picture').alt = comment.name;
+    newCommentElement.querySelector('.social__text').textContent = comment.message;
 
     commentListElement.append(newCommentElement);
   });
 };
-
 
 function closeUserModal() {
   fullSizeElement.classList.add('hidden');

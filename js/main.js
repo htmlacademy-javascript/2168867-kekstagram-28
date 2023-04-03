@@ -1,5 +1,10 @@
-import { createDataPhotos } from './data.js';
 import { drawThumbnails } from './thumbnail.js';
-import './open-form.js';
+import { setUploadSubmit } from'./open-form.js';
+import { getData, sendData} from './api.js';
+import { showAlert } from './util.js';
 
-drawThumbnails(createDataPhotos());
+/*drawThumbnails(createDataPhotos());*/ // убираем ручную генерацию данных, добавляем получение данных с сервера
+
+setUploadSubmit(sendData);
+
+getData().then(drawThumbnails).catch(showAlert);

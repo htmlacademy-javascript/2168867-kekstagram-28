@@ -26,7 +26,7 @@ const getValidator = (formElement) => {
       pristine.addValidator(
         fieldElement,
         (value) => !value || getHashtag(value).every((hashtag) => /^#/.test(hashtag)),
-        'Хэштэг должен начинаться с решетки}'
+        'Хэштэг должен начинаться с решетки'
       );
       pristine.addValidator(
         fieldElement,
@@ -54,6 +54,7 @@ const getValidator = (formElement) => {
       );
     }
   });
+  return pristine;
 };
 
 export { getValidator };
