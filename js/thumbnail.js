@@ -28,4 +28,4 @@ const drawThumbnails = (pictures) => {
 };
 
 
-export { drawThumbnails, container, createThumbnailElement };
+export { drawThumbnails, container };

@@ -8,7 +8,6 @@ const getValidator = (formElement) => {
     {
       classTo: 'img-upload__field-wrapper',
       errorClass: 'img-upload__error',
-      successClass: 'img-upload__text--valid',
       errorTextParent: 'img-upload__field-wrapper',
     },
     false
