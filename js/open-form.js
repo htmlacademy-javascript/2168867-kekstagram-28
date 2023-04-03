@@ -6,6 +6,11 @@ import { rebootEffects } from './photo-effects.js';
 /*import { showErrorMessage, showSuccessMessage } from './servises-messages.js';*/
 import { showUploadSuccess, showUploadError } from './upload-status.js';
 
+const submitPostText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую'
+};
+
 const photoDownloadElement = container.querySelector('#upload-file');
 const openModalElement = container.querySelector('.img-upload__overlay');
 const closeModalElement = container.querySelector('.img-upload__cancel');
@@ -19,12 +24,14 @@ const onUploadKeydown = (evt) => {
     closeUserModal();
   }
 };
+
 //открываем модалку
 const openUserModal = () => {
   openModalElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadKeydown);
 };
+
 //закрываем модалку
 function closeUserModal() {
   openModalElement.classList.add('hidden');
@@ -34,25 +41,26 @@ function closeUserModal() {
   rebootEffects();
   document.removeEventListener('keydown', onUploadKeydown);
 }
+
 //навешиваем обработчики
 photoDownloadElement.addEventListener('input', () => {
   openUserModal();
 });
+
 closeModalElement.addEventListener('click', () => {
   closeUserModal();
 });
-const submitPostText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую'
-};
+
 const blockSubmitButton = () => {
   submitPostElement.disabled = true;
   submitPostElement.textContent = submitPostText.SENDING;
 };
+
 const unblockSubmitButton = () => {
   submitPostElement.disabled = false;
   submitPostElement.textContent = submitPostText.IDLE;
 };
+
 const setUploadSubmit = (callback) => {
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
