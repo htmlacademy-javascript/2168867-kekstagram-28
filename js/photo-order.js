@@ -1,4 +1,6 @@
-import { RANDOM_PICTURE_COUNT, SORT_NUMBER } from './constants.js';
+import { RANDOM_PICTURE_COUNT, SORT_NUMBER, RENDER_DELAY } from './constants.js';
+import { drawThumbnails } from './thumbnail.js';
+import { debounce } from './util.js';
 
 const Filters = {
   DEFAULT: 'filter-default',
@@ -28,20 +30,18 @@ const getFilteredPhoto = () => {
   }
 };
 
-const onFilterClick = (callback) => {
+const init = (loadedPictures) => {
+  const debouncedCallback = debounce(drawThumbnails, RENDER_DELAY);
+  photoFiltersElement.classList.remove('img-filters--inactive');
+  descriptionSorted = [...loadedPictures];
+
   photoFiltersFormElement.addEventListener('click', (evt) => {
     sortButtonElement.forEach((item) => item.classList.remove('img-filters__button--active'));
     evt.target.classList.add('img-filters__button--active');
     currentFilter = evt.target.id;
-    callback(getFilteredPhoto());
+    debouncedCallback(getFilteredPhoto());
   });
+  debouncedCallback(getFilteredPhoto());
 };
 
-
-const init = (loadedPictures, callback) => {
-  photoFiltersElement.classList.remove('img-filters--inactive');
-  descriptionSorted = [...loadedPictures];
-  onFilterClick(callback);
-};
-
-export { getFilteredPhoto, onFilterClick, init };
+export { getFilteredPhoto, init };

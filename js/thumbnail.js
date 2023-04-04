@@ -17,15 +17,16 @@ const createThumbnailElement = (photo) => {
 };
 
 const drawThumbnails = (pictures) => {
-  const element = document.createDocumentFragment();
+  const pictureElement = document.createDocumentFragment();
+
+  container.querySelectorAll('.picture').forEach((element) => element.remove());
 
   pictures.forEach((picture) => {
     const thumbnailElement = createThumbnailElement(picture);
-    element.append(thumbnailElement);
+    pictureElement.append(thumbnailElement);
   });
 
-  container.append(element);
+  container.append(pictureElement);
 };
-
 
 export { drawThumbnails, container };
