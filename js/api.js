@@ -4,10 +4,12 @@ const Route = {
   GET: '/data',
   POST: '',
 };
+
 const Method = {
   GET: 'GET',
   POST: 'POST',
 };
+
 const ErrorText = {
   GET: 'Не удалось загрузить данные. Попробуйте перезагрузить страницу',
   POST: 'Не удалось отправить форму. Попробуйте еще раз',
