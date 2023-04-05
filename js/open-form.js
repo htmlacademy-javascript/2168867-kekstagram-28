@@ -81,5 +81,5 @@ const setUploadSubmit = (callback) => {
   });
 };
 
-export { formElement, closeUserModal, setUploadSubmit, onUploadKeydown };
+export { formElement, closeUserModal, setUploadSubmit, onUploadKeydown, photoDownloadElement };
 
