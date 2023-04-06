@@ -1,4 +1,4 @@
-import { EFFECTS } from './constants.js';
+import { DEFAULT_EFFECT, effects } from './constants.js';
 import { photoPreviewElement } from './scale-photo.js';
 
 const effectsElement = document.querySelector('.effects');
@@ -6,10 +6,9 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const sliderContainerElement = document.querySelector('.img-upload__effect-level');
 const effectValueElement = document.querySelector('.effect-level__value');
 
-const EFFECT_DEFAULT = EFFECTS[0];
-let currentEffect = EFFECT_DEFAULT;
+let currentEffect = DEFAULT_EFFECT;
 
-const isDefault = () => currentEffect === EFFECT_DEFAULT;
+const isDefault = () => currentEffect === DEFAULT_EFFECT;
 
 const closeSlider = () => {
   sliderContainerElement.classList.add('hidden');
@@ -38,7 +37,7 @@ const changeSlider = () => {
 
 const onEffectsChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
-    currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+    currentEffect = effects[evt.target.value];
     changeSlider();
   }
 };
@@ -46,23 +45,23 @@ const onEffectsChange = (evt) => {
 const onSliderChange = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   photoPreviewElement.style.filter = isDefault()
-    ? EFFECT_DEFAULT.style
+    ? DEFAULT_EFFECT.style
     : `${currentEffect.style}(${sliderValue}${currentEffect.unit})`;
   effectValueElement.value = sliderValue;
 };
 
 const rebootEffects = () => {
-  currentEffect = EFFECT_DEFAULT;
+  currentEffect = DEFAULT_EFFECT;
   changeSlider();
 };
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: EFFECT_DEFAULT.min,
-    max: EFFECT_DEFAULT.max,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: EFFECT_DEFAULT.max,
-  step: EFFECT_DEFAULT.step,
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
   connect: 'lower',
 });
 
