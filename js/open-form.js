@@ -3,10 +3,9 @@ import { container } from './thumbnail.js';
 import { getValidator } from './validator.js';
 import { rebootScale } from './scale-photo.js';
 import { rebootEffects } from './photo-effects.js';
-/*import { showErrorMessage, showSuccessMessage } from './servises-messages.js';*/
 import { showUploadSuccess, showUploadError } from './upload-status.js';
 
-const submitPostText = {
+const SubmitPostText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую'
 };
@@ -53,12 +52,12 @@ closeModalElement.addEventListener('click', () => {
 
 const blockSubmitButton = () => {
   submitPostElement.disabled = true;
-  submitPostElement.textContent = submitPostText.SENDING;
+  submitPostElement.textContent = SubmitPostText.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitPostElement.disabled = false;
-  submitPostElement.textContent = submitPostText.IDLE;
+  submitPostElement.textContent = SubmitPostText.IDLE;
 };
 
 const setUploadSubmit = (callback) => {

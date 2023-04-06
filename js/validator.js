@@ -1,7 +1,7 @@
 import { MAX_HASHTAG_SYMBOL_LENGTH, MAX_HASHTAG_COUNT } from './constants.js';
 
 const getHashtag = (value) => value.trim().toLowerCase().split(' ');
-//здесь пишем условия валидации
+
 const getValidator = (formElement) => {
   const pristine = new Pristine(
     formElement,
