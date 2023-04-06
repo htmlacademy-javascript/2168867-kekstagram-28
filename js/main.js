@@ -5,8 +5,6 @@ import { showAlert } from './util.js';
 import { init } from './photo-order.js';
 import './upload-users-photos.js';
 
-/*drawThumbnails(createDataPhotos());*/ // убираем ручную генерацию данных, добавляем получение данных с сервера
-
 setUploadSubmit(sendData);
 
 getData()
