@@ -4,6 +4,7 @@ import { getValidator } from './validator.js';
 import { rebootScale } from './scale-photo.js';
 import { rebootEffects } from './photo-effects.js';
 import { showUploadSuccess, showUploadError } from './upload-status.js';
+import { userPhotoChose } from './upload-users-photos.js';
 
 const SubmitPostText = {
   IDLE: 'Опубликовать',
@@ -43,7 +44,15 @@ function closeUserModal() {
 
 //навешиваем обработчики
 photoDownloadElement.addEventListener('input', () => {
-  openUserModal();
+
+  const error = userPhotoChose(photoDownloadElement);
+
+  if (error) {
+    showAlert(error);
+  } else {
+    openUserModal();
+  }
+  photoDownloadElement.blur();
 });
 
 closeModalElement.addEventListener('click', () => {

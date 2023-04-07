@@ -1,6 +1,32 @@
-import { MAX_HASHTAG_SYMBOL_LENGTH, MAX_HASHTAG_COUNT } from './constants.js';
+import { VALIDATOR_PRIORITY, MAX_HASHTAG_SYMBOL_LENGTH, MAX_HASHTAG_COUNT } from './constants.js';
 
 const getHashtag = (value) => value.trim().toLowerCase().split(' ');
+
+const HASHTAG_VALIDATOR_DATA = [
+  [
+    (value) => {
+      const hashtags = getHashtag(value);
+      return hashtags.length === new Set(hashtags).size;
+    },
+    'Присутствует повторяющйся хэштэг'
+  ],
+  [
+    (value) => getHashtag(value).length <= MAX_HASHTAG_COUNT,
+    'Превышено общее число хэштэгов'
+  ],
+  [
+    (value) => !value || getHashtag(value).every((hashtag) => hashtag.length <= MAX_HASHTAG_SYMBOL_LENGTH),
+    'Максимальная длина хэштэга 20 символов'
+  ],
+  [
+    (value) => !value || getHashtag(value).every((hashtag) => /[a-zа-яё0-9]{1,19}$/.test(hashtag)),
+    'Хэштэг не может содержать спецсимволы и должен содержать минимум одну букву и цифру'
+  ],
+  [
+    (value) => !value || getHashtag(value).every((hashtag) => /^#/.test(hashtag)),
+    'Хэштэг должен начинаться с решетки'
+  ]
+];
 
 const getValidator = (formElement) => {
   const pristine = new Pristine(
@@ -23,35 +49,9 @@ const getValidator = (formElement) => {
     fieldElement.addEventListener('change', onChange);
 
     if (fieldElement.className.includes('hashtags')) {
-      pristine.addValidator(
-        fieldElement,
-        (value) => !value || getHashtag(value).every((hashtag) => /^#/.test(hashtag)),
-        'Хэштэг должен начинаться с решетки'
-      );
-      pristine.addValidator(
-        fieldElement,
-        (value) => !value || getHashtag(value).every((hashtag) => /[a-zа-яё0-9]{1,19}$/.test(hashtag)),
-        'Хэштэг не может содержать спецсимволы и должен содержать минимум одну букву и цифру'
-      );
-      pristine.addValidator(
-        fieldElement,
-        (value) => !value || getHashtag(value).every((hashtag) => hashtag.length <= MAX_HASHTAG_SYMBOL_LENGTH),
-        'Максимальная длина хэштэга 20 символов'
-      );
-      pristine.addValidator(
-        fieldElement,
-        (value) =>
-          getHashtag(value).length <= MAX_HASHTAG_COUNT,
-        'Превышено общее число хэштэгов'
-      );
-      pristine.addValidator(
-        fieldElement,
-        (value) => {
-          const hashtags = getHashtag(value);
-          return hashtags.length === new Set(hashtags).size;
-        },
-        'Присутствует повторяющйся хэштэг'
-      );
+      HASHTAG_VALIDATOR_DATA.forEach(([validate, message], i) => {
+        pristine.addValidator(fieldElement, validate, message, VALIDATOR_PRIORITY + i, true);
+      });
     }
   });
   return pristine;
