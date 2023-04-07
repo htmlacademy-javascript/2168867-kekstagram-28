@@ -59,14 +59,9 @@ closeModalElement.addEventListener('click', () => {
   closeUserModal();
 });
 
-const blockSubmitButton = () => {
-  submitPostElement.disabled = true;
-  submitPostElement.textContent = SubmitPostText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  submitPostElement.disabled = false;
-  submitPostElement.textContent = SubmitPostText.IDLE;
+const toggleSubmitButton = (disabled) => {
+  submitPostElement.disabled = disabled;
+  submitPostElement.textContent = disabled ? SubmitPostText.SENDING : SubmitPostText.IDLE;
 };
 
 const setUploadSubmit = (callback) => {
@@ -74,7 +69,7 @@ const setUploadSubmit = (callback) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
-      blockSubmitButton();
+      toggleSubmitButton();
       callback(new FormData(evt.target))
         .then(() => {
           closeUserModal();
@@ -84,7 +79,7 @@ const setUploadSubmit = (callback) => {
           showAlert(err);
           showUploadError();
         })
-        .finally(unblockSubmitButton);
+        .finally(() => toggleSubmitButton(false));
     }
   });
 };
